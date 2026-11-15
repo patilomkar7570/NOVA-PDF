@@ -148,7 +148,7 @@ Both the Android edition (with hardware keyboard) and the PC Edition support ful
 | Parameter | Android Edition | PC Edition (NOVA PDF+) |
 | :--- | :--- | :--- |
 | **Application ID / Format** | `app.stillpdf.reader` | Single-File HTML5 / JavaScript |
-| **Version** | `1.0` (VersionCode `3`) | `1.0` |
+| **Version** | `1.0` (VersionCode `4`) | `1.0` |
 | **Runtime Target** | Android API 23 to API 35 | Evergreen Web Browsers |
 | **Language** | Native Java 17 | HTML5, CSS3, ES2022 |
 | **PDF Rendering Engine** | Android `PdfRenderer` | PDF.js 3.11.174 |

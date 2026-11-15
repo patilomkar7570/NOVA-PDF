@@ -116,15 +116,14 @@ public class MainActivity extends Activity {
             currentName = savedInstanceState.getString("currentName", "Document.pdf");
         }
 
-        if (reading && currentUri != null) {
+        Uri incoming = getIncomingUri(getIntent());
+        if (incoming != null) {
+            String name = nameFromUri(incoming);
+            openPdf(incoming, name, 0);
+        } else if (reading && currentUri != null) {
             openPdf(currentUri, currentName, currentPage);
         } else {
             buildHome();
-            Uri incoming = getIncomingUri(getIntent());
-            if (incoming != null) {
-                String name = nameFromUri(incoming);
-                openPdf(incoming, name, 0);
-            }
         }
     }
 
@@ -162,11 +161,24 @@ public class MainActivity extends Activity {
     private Uri getIncomingUri(Intent intent) {
         if (intent == null) return null;
         String action = intent.getAction();
-        if (Intent.ACTION_VIEW.equals(action)) return intent.getData();
+        if (Intent.ACTION_VIEW.equals(action) || Intent.ACTION_EDIT.equals(action)) {
+            if (intent.getData() != null) return intent.getData();
+            if (intent.getClipData() != null && intent.getClipData().getItemCount() > 0) {
+                return intent.getClipData().getItemAt(0).getUri();
+            }
+        }
         if (Intent.ACTION_SEND.equals(action)) {
-            if (Build.VERSION.SDK_INT >= 33) return intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri.class);
-            //noinspection deprecation
-            return (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            Uri streamUri = null;
+            if (Build.VERSION.SDK_INT >= 33) {
+                streamUri = intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri.class);
+            } else {
+                //noinspection deprecation
+                streamUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            }
+            if (streamUri != null) return streamUri;
+            if (intent.getClipData() != null && intent.getClipData().getItemCount() > 0) {
+                return intent.getClipData().getItemAt(0).getUri();
+            }
         }
         return null;
     }
@@ -542,7 +554,13 @@ public class MainActivity extends Activity {
         }
         if (result == null || result.isEmpty()) {
             String last = uri.getLastPathSegment();
-            result = (last == null || last.trim().isEmpty()) ? "Document.pdf" : last.replaceAll("[\\r\\n\\t]+", " ").trim();
+            if (last != null) {
+                try {
+                    last = Uri.decode(last);
+                } catch (Exception ignored) { }
+                last = last.replaceAll("[\\r\\n\\t]+", " ").trim();
+            }
+            result = (last == null || last.isEmpty()) ? "Document.pdf" : last;
         }
         return result;
     }
@@ -554,6 +572,15 @@ public class MainActivity extends Activity {
 
     private void openPdf(Uri uri, String name, int requestedPage) {
         if (uri == null) return;
+        try {
+            Intent intent = getIntent();
+            if (intent != null) {
+                int flags = intent.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                if (flags != 0) {
+                    getContentResolver().takePersistableUriPermission(uri, flags);
+                }
+            }
+        } catch (Exception ignored) { }
         final int requestId = ++openRequestId;
         closeRenderer();
         reading = true;
@@ -627,12 +654,24 @@ public class MainActivity extends Activity {
         File target = new File(folder, key + ".pdf");
         File temp = new File(folder, key + ".part");
         ContentResolver resolver = getContentResolver();
-        try (InputStream input = resolver.openInputStream(uri);
+        InputStream input = null;
+        try {
+            input = resolver.openInputStream(uri);
+        } catch (Exception ex) {
+            if ("file".equalsIgnoreCase(uri.getScheme()) && uri.getPath() != null) {
+                try {
+                    input = new java.io.FileInputStream(new File(uri.getPath()));
+                } catch (Exception ignored) { }
+            }
+            if (input == null && ex instanceof IOException) throw (IOException) ex;
+            if (input == null) throw new IOException("Could not open the selected PDF", ex);
+        }
+        try (InputStream in = input;
              FileOutputStream output = new FileOutputStream(temp)) {
-            if (input == null) throw new IOException("The selected file could not be opened.");
+            if (in == null) throw new IOException("The selected file could not be opened.");
             byte[] buffer = new byte[32 * 1024];
             int count;
-            while ((count = input.read(buffer)) != -1) output.write(buffer, 0, count);
+            while ((count = in.read(buffer)) != -1) output.write(buffer, 0, count);
             output.flush();
         } catch (Exception e) {
             //noinspection ResultOfMethodCallIgnored
