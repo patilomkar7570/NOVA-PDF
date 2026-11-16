@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/patilomkar7570/NovaPDF/actions/workflows/build-apk.yml"><img src="https://github.com/patilomkar7570/NovaPDF/actions/workflows/build-apk.yml/badge.svg" alt="CI Build Status" /></a>
-  <a href="https://github.com/patilomkar7570/NovaPDF/releases/tag/v1.0.0"><img src="https://img.shields.io/github/v/release/patilomkar7570/NovaPDF?color=3267E8&label=Release" alt="Latest Release" /></a>
+  <a href="https://github.com/patilomkar7570/NOVA-PDF/actions/workflows/build-apk.yml"><img src="https://github.com/patilomkar7570/NOVA-PDF/actions/workflows/build-apk.yml/badge.svg" alt="CI Build Status" /></a>
+  <a href="https://github.com/patilomkar7570/NOVA-PDF/releases/tag/v1.0.0"><img src="https://img.shields.io/github/v/release/patilomkar7570/NovaPDF?color=3267E8&label=Release" alt="Latest Release" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
   <a href="#edition-comparison"><img src="https://img.shields.io/badge/Platforms-Android%20%7C%20PC%20Web-3267E8.svg" alt="Platforms" /></a>
   <a href="SECURITY.md"><img src="https://img.shields.io/badge/Privacy-100%25%20Offline-success.svg" alt="100% Offline" /></a>
@@ -101,7 +101,7 @@ All document rendering, text extraction, and OCR run strictly on your local devi
 
 ### 📱 Android Phone & Tablet (APK)
 
-Download the official signed release APK directly from the [GitHub Releases](https://github.com/patilomkar7570/NovaPDF/releases) page:
+Download the official signed release APK directly from the [GitHub Releases](https://github.com/patilomkar7570/NOVA-PDF/releases) page:
 
 - **File Name:** `NOVA-PDF-Android-v1.0.apk`
 - **Version:** `1.0` (Release `1.0.0`)
@@ -119,7 +119,7 @@ Download the official signed release APK directly from the [GitHub Releases](htt
 - **File Name:** `NovaPDF-Plus.html`
 - **Supported Browsers:** Google Chrome, Microsoft Edge, Mozilla Firefox, Apple Safari, Brave, Opera.
 - **How to Use:**
-  1. Download `NovaPDF-Plus.html` from the [GitHub Releases](https://github.com/patilomkar7570/NovaPDF/releases) page.
+  1. Download `NovaPDF-Plus.html` from the [GitHub Releases](https://github.com/patilomkar7570/NOVA-PDF/releases) page.
   2. Double-click `NovaPDF-Plus.html` to open it in your default browser.
   3. Drag and drop any PDF file into the window to read, search, OCR, or inspect it.
 
