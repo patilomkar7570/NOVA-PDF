@@ -20,6 +20,6 @@ NOVA PDF and NOVA PDF+ operate on a **zero-trust, privacy-first architecture**:
 
 If you discover a security vulnerability or bug in NOVA PDF, please report it responsibly:
 
-1. Open a private issue or advisory via GitHub's [Security Advisory](https://github.com/patilomkar7570/NovaPDF/security/advisories) tab.
+1. Open a private issue or advisory via GitHub's [Security Advisory](https://github.com/patilomkar7570/NOVA-PDF/security/advisories) tab.
 2. Provide a detailed summary of the issue, affected versions, and steps to reproduce.
 3. Vulnerabilities will be addressed and patched promptly in the next release.
